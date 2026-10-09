@@ -3,12 +3,13 @@
 Mở `index.html` bằng Chrome/Edge. Không cần cài package, không cần internet.
 Hoặc chạy `node serve.cjs`, rồi mở http://127.0.0.1:8767.
 
-- Chọn một trong 5 màn mẫu, kéo thả cọc, chọn màu để thêm cọc.
+- Chọn một màn mẫu (1–5, và 7 / 12 / 17 có element), kéo thả cọc, chọn màu để thêm cọc.
 - Chỉnh tầng, vùng chặn W/H, số lá, kiểu xòe thẳng/vòng, chiều thuận/ngược và hướng xòe.
 - Cọc phía trên tự tìm cọc đỡ theo `StackPlacementRules`; có thể chọn `on_stack` rõ ràng khi cần. Tầng phải thấp hơn, giao vùng và cùng góc xòe.
 - Đường tím là quan hệ nối xòe. Bật **Vùng chặn** để xem rectangle gameplay và các đường chặn màu cam. Quan hệ chặn được suy ra theo rule hiện tại của game, không lưu trường BlockedNodes không được game hỗ trợ.
 - **Dàn cọc như game** mô phỏng bước tránh va chạm giữa các nhóm cọc của Board3DView. Tắt để xem hình học trước khi dàn. Đây là preview SVG mặt trên; không phải render 3D/camera Unity chính xác từng pixel.
-- **Bấm thử** mô phỏng lấy cả cọc, chặn theo tầng/màu, hàng đợi chia theo từng cột đích, buffer, thắng/thua và kiểm tra nước đi an toàn. Không có booster/revive. Khi thắng có thể lưu `solution`.
+- **Bấm thử** chạy đúng luật của game (`BoardModel`, GDD v2.0): chạm thì lá bay lần lượt tới khi một lá không còn chỗ — lá đó và phần còn lại ở lại cọc (D-041); thua khi ô chờ đầy và không lá ô chờ / cọc mở nào cùng màu với cọc đích đang nhận, hoặc không còn nước nào (D-040); chặn theo tầng/màu, hàng đợi chia theo từng cột đích. Có cả element: cọc úp mặt, cọc đích ẩn, cọc khoá. Không có booster/revive. Khi thắng có thể lưu `solution`.
+- **Element** (thuộc tính cọc → Element; ô **?** cạnh mỗi đích): *Úp mặt* (`hidden: true`, từ màn 7) — úp khi bị che, hết che thì lộ màu mãi, khi còn úp thì che mọi cọc bên dưới. *Khoá* (`lock: 1–4`, từ màn 17) — không chạm được, đếm sau lần đầu hết bị che, mỗi cọc đích xong −1, còn lại toàn màu bị khoá thì mở ngay. *Đích ẩn* (`hidden: true` trên đích, từ màn 12) — hiện "?" khi còn trong hàng chờ, lộ màu khi xuống đáy.
 - Ctrl+Z / Ctrl+Y, Ctrl+D, Delete; F vừa khung. Kéo nền để pan, lăn chuột zoom.
 - JSON giữ định dạng CardSlot hiện có; giữ các trường bổ sung. Chỉnh config sẽ bỏ solution cũ để tránh lưu lời giải đã lỗi thời.
 - **Lưu bản nháp** lưu trên trình duyệt, không ghi file project. Luôn xuất JSON để có bản độc lập.

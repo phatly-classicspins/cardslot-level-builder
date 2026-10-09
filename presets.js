@@ -828,5 +828,599 @@ const CARDSLOT_PRESETS = [
       "s3",
       "s11"
     ]
+  },
+  {
+    "id": "level_007",
+    "revision": 3,
+    "seed": 700005,
+    "n_slots": 3,
+    "buffer_capacity": 26,
+    "targets": [
+      {
+        "color": "color_2",
+        "capacity": 18
+      },
+      {
+        "color": "color_6",
+        "capacity": 18
+      },
+      {
+        "color": "color_3",
+        "capacity": 18
+      },
+      {
+        "color": "color_0",
+        "capacity": 18
+      },
+      {
+        "color": "color_2",
+        "capacity": 18
+      },
+      {
+        "color": "color_3",
+        "capacity": 18
+      },
+      {
+        "color": "color_6",
+        "capacity": 18
+      },
+      {
+        "color": "color_0",
+        "capacity": 18
+      }
+    ],
+    "stacks": [
+      {
+        "id": "s0",
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_3",
+        "count": 18
+      },
+      {
+        "id": "s1",
+        "x": 176,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_2",
+        "count": 12
+      },
+      {
+        "id": "s2",
+        "x": 352,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_2",
+        "count": 18,
+        "hidden": true
+      },
+      {
+        "id": "s3",
+        "x": 0,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_6",
+        "count": 18
+      },
+      {
+        "id": "s4",
+        "x": 176,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_0",
+        "count": 6
+      },
+      {
+        "id": "s5",
+        "x": 352,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_0",
+        "count": 18
+      },
+      {
+        "id": "s6",
+        "x": 176,
+        "y": 464,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_0",
+        "count": 6
+      },
+      {
+        "id": "s7",
+        "x": 394,
+        "y": 52,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_6",
+        "count": 6
+      },
+      {
+        "id": "s8",
+        "x": 42,
+        "y": 284,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_0",
+        "count": 6
+      },
+      {
+        "id": "s9",
+        "x": 218,
+        "y": 516,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_6",
+        "count": 12,
+        "hidden": true
+      },
+      {
+        "id": "s10",
+        "x": 436,
+        "y": 104,
+        "w": 150,
+        "h": 206,
+        "layer": 2,
+        "color": "color_3",
+        "count": 18
+      },
+      {
+        "id": "s11",
+        "x": 260,
+        "y": 568,
+        "w": 150,
+        "h": 206,
+        "layer": 2,
+        "color": "color_2",
+        "count": 6
+      }
+    ],
+    "ftue": null,
+    "solution": [
+      "s0",
+      "s1",
+      "s10",
+      "s7",
+      "s11",
+      "s4",
+      "s8",
+      "s9",
+      "s2",
+      "s5",
+      "s3",
+      "s6"
+    ]
+  },
+  {
+    "id": "level_012",
+    "revision": 3,
+    "seed": 1200023,
+    "n_slots": 3,
+    "buffer_capacity": 26,
+    "targets": [
+      {
+        "color": "color_4",
+        "capacity": 18
+      },
+      {
+        "color": "color_6",
+        "capacity": 18
+      },
+      {
+        "color": "color_4",
+        "capacity": 18
+      },
+      {
+        "color": "color_7",
+        "capacity": 18,
+        "hidden": true
+      },
+      {
+        "color": "color_1",
+        "capacity": 18
+      },
+      {
+        "color": "color_1",
+        "capacity": 18
+      },
+      {
+        "color": "color_3",
+        "capacity": 18
+      },
+      {
+        "color": "color_0",
+        "capacity": 18
+      },
+      {
+        "color": "color_6",
+        "capacity": 18
+      }
+    ],
+    "stacks": [
+      {
+        "id": "s0",
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_6",
+        "count": 6
+      },
+      {
+        "id": "s1",
+        "x": 176,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_7",
+        "count": 18
+      },
+      {
+        "id": "s2",
+        "x": 352,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_6",
+        "count": 12
+      },
+      {
+        "id": "s3",
+        "x": 0,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_3",
+        "count": 6
+      },
+      {
+        "id": "s4",
+        "x": 176,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_1",
+        "count": 6
+      },
+      {
+        "id": "s5",
+        "x": 352,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_1",
+        "count": 18
+      },
+      {
+        "id": "s6",
+        "x": 0,
+        "y": 464,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_3",
+        "count": 6
+      },
+      {
+        "id": "s7",
+        "x": 176,
+        "y": 464,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_6",
+        "count": 6
+      },
+      {
+        "id": "s8",
+        "x": 352,
+        "y": 464,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_0",
+        "count": 18
+      },
+      {
+        "id": "s9",
+        "x": 218,
+        "y": 52,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_4",
+        "count": 18
+      },
+      {
+        "id": "s10",
+        "x": 394,
+        "y": 284,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_1",
+        "count": 12
+      },
+      {
+        "id": "s11",
+        "x": 42,
+        "y": 516,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_4",
+        "count": 6
+      },
+      {
+        "id": "s12",
+        "x": 394,
+        "y": 516,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_3",
+        "count": 6
+      },
+      {
+        "id": "s13",
+        "x": 260,
+        "y": 104,
+        "w": 150,
+        "h": 206,
+        "layer": 2,
+        "color": "color_4",
+        "count": 12
+      },
+      {
+        "id": "s14",
+        "x": 436,
+        "y": 568,
+        "w": 150,
+        "h": 206,
+        "layer": 2,
+        "color": "color_6",
+        "count": 12
+      }
+    ],
+    "ftue": null,
+    "solution": [
+      "s0",
+      "s9",
+      "s11",
+      "s7",
+      "s13",
+      "s1",
+      "s3",
+      "s4",
+      "s6",
+      "s10",
+      "s2",
+      "s5",
+      "s14",
+      "s12",
+      "s8"
+    ]
+  },
+  {
+    "id": "level_017",
+    "revision": 3,
+    "seed": 1700034,
+    "n_slots": 3,
+    "buffer_capacity": 26,
+    "targets": [
+      {
+        "color": "color_5",
+        "capacity": 18
+      },
+      {
+        "color": "color_2",
+        "capacity": 18
+      },
+      {
+        "color": "color_6",
+        "capacity": 18
+      },
+      {
+        "color": "color_5",
+        "capacity": 18
+      },
+      {
+        "color": "color_3",
+        "capacity": 18
+      },
+      {
+        "color": "color_3",
+        "capacity": 18
+      },
+      {
+        "color": "color_0",
+        "capacity": 18
+      },
+      {
+        "color": "color_4",
+        "capacity": 18
+      },
+      {
+        "color": "color_6",
+        "capacity": 18
+      },
+      {
+        "color": "color_7",
+        "capacity": 18
+      }
+    ],
+    "stacks": [
+      {
+        "id": "s0",
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_3",
+        "count": 12,
+        "lock": 2
+      },
+      {
+        "id": "s1",
+        "x": 176,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_5",
+        "count": 12
+      },
+      {
+        "id": "s2",
+        "x": 352,
+        "y": 0,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_7",
+        "count": 6
+      },
+      {
+        "id": "s3",
+        "x": 0,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_0",
+        "count": 18
+      },
+      {
+        "id": "s4",
+        "x": 176,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_4",
+        "count": 18
+      },
+      {
+        "id": "s5",
+        "x": 352,
+        "y": 232,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_6",
+        "count": 18
+      },
+      {
+        "id": "s6",
+        "x": 88,
+        "y": 464,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_3",
+        "count": 12
+      },
+      {
+        "id": "s7",
+        "x": 264,
+        "y": 464,
+        "w": 150,
+        "h": 206,
+        "layer": 0,
+        "color": "color_7",
+        "count": 12
+      },
+      {
+        "id": "s8",
+        "x": 218,
+        "y": 52,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_5",
+        "count": 6
+      },
+      {
+        "id": "s9",
+        "x": 394,
+        "y": 52,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_2",
+        "count": 18
+      },
+      {
+        "id": "s10",
+        "x": 218,
+        "y": 284,
+        "w": 150,
+        "h": 206,
+        "layer": 1,
+        "color": "color_3",
+        "count": 12
+      },
+      {
+        "id": "s11",
+        "x": 260,
+        "y": 104,
+        "w": 150,
+        "h": 206,
+        "layer": 2,
+        "color": "color_5",
+        "count": 18
+      },
+      {
+        "id": "s12",
+        "x": 260,
+        "y": 336,
+        "w": 150,
+        "h": 206,
+        "layer": 2,
+        "color": "color_6",
+        "count": 18
+      }
+    ],
+    "ftue": null,
+    "solution": [
+      "s1",
+      "s8",
+      "s11",
+      "s3",
+      "s9",
+      "s0",
+      "s2",
+      "s12",
+      "s6",
+      "s10",
+      "s4",
+      "s5",
+      "s7"
+    ]
   }
 ];

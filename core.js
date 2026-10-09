@@ -18,7 +18,7 @@
     range(l.n_slots,2,4,'Số cọc đích'); range(l.buffer_capacity,1,60,'Buffer');
     range(l.stacks.length,2,30,'Số cọc bài');
     if (!l.targets.length) errors.push('Chưa có đích');
-    l.targets.forEach(t => { range(t.capacity,2,36,'Sức chứa đích'); if (!color(t.color)) errors.push('Màu đích không hợp lệ'); else targets[+t.color.slice(6)] += t.capacity; });
+    l.targets.forEach(t => { range(t.capacity,2,36,'Sức chứa đích'); if (!color(t.color)) errors.push('Màu đích không hợp lệ'); else targets[+t.color.slice(6)] += t.capacity; if (t.hidden!==undefined && typeof t.hidden!=='boolean') errors.push('Đích: hidden phải là boolean'); });
     l.stacks.forEach(s => {
       if (typeof s.id !== 'string' || !s.id || ids.has(s.id)) errors.push('ID cọc thiếu hoặc trùng: '+s.id); ids.add(s.id);
       range(s.count,1,48,s.id+' / số bài'); range(s.layer,0,4,s.id+' / tầng');
@@ -26,6 +26,9 @@
       for (const k of ['x','y','w','h']) if (!Number.isInteger(s[k]) || ((k==='w'||k==='h') && s[k]<=0)) errors.push(s.id+' / '+k+' không hợp lệ');
       if (typeof s.fan !== 'boolean' || typeof s.spread !== 'boolean') errors.push(s.id+' / fan và spread phải là boolean');
       if (!color(s.color)) errors.push(s.id+' / màu không hợp lệ'); else cards[+s.color.slice(6)] += s.count;
+      if (s.hidden!==undefined && typeof s.hidden!=='boolean') errors.push(s.id+' / hidden phải là boolean');
+      if (s.lock!==undefined) range(s.lock,0,4,s.id+' / khoá');
+      if (s.hidden && s.lock>0) errors.push(s.id+' / không thể vừa úp vừa khoá');
       if (s.on_stack) { const p = l.stacks.find(p=>p.id===s.on_stack); if (!p || p.layer>=s.layer || !overlap(s,p) || p.spread_angle!==s.spread_angle) errors.push(s.id+' / cọc đỡ phải ở tầng dưới, giao vùng và cùng hướng xòe'); }
     });
     for (let c=0;c<8;c++) if (cards[c]!==targets[c]) errors.push(`color_${c}: ${cards[c]} bài / ${targets[c]} sức chứa đích`);
@@ -68,19 +71,51 @@
       const dx=Math.ceil(box.x-original.x),dy=Math.ceil(box.y-original.y);poses.filter(p=>p.root===root).forEach(p=>{p.dx=dx;p.dy=dy;p.cards.forEach(c=>{c.x+=dx;c.y+=dy;});});placed.push({root,box});
     } return poses;
   }
+  // ── "Bấm thử": the rules of the game's BoardModel (GDD v2.0) — taps only, no booster / revive ─────────────
+  // R-6/R-7 (D-041): cards leave one by one until one has nowhere to go; it and the rest stay on the stack.
+  // R-13 (D-040): stuck = holding area full and no held card / open stack matches a receiving pole, or no valid tap.
+  // R-24 hidden stack · R-25 hidden pole · R-26 locked stack (elements.md).
   function newGame(l) {
-    const g={remaining:l.stacks.map(s=>s.count),next:Array(l.n_slots).fill(0),slots:[],buffer:[],result:'playing',moves:[]};
-    for(let i=0;i<l.n_slots;i++) enter(l,g,i); return g;
+    const g={remaining:l.stacks.map(s=>s.count),next:Array(l.n_slots).fill(0),slots:[],buffer:[],result:'playing',moves:[],
+      revealed:l.stacks.map(()=>false),lock:l.stacks.map(s=>s.lock||0),counting:l.stacks.map(()=>false),poleSeen:l.targets.map(()=>false)};
+    for(let i=0;i<l.n_slots;i++) enter(l,g,i);
+    updateElements(l,g); return g;
   }
-  function enter(l,g,i){const t=l.targets[i+g.next[i]*l.n_slots];g.slots[i]=t?{...t,filled:0}:null;if(t)g.next[i]++;}
-  function covered(l,g,i){return l.stacks.some((s,j)=>g.remaining[j]>0 && s.layer>l.stacks[i].layer && s.color!==l.stacks[i].color && overlap(s,l.stacks[i]));}
-  function settle(l,g){let changed;do{changed=false;g.slots.forEach((s,i)=>{if(s&&s.filled>=s.capacity){enter(l,g,i);changed=true;}});g.slots.forEach(s=>{if(!s)return;for(let i=0;i<g.buffer.length&&s.filled<s.capacity;){if(g.buffer[i]!==s.color){i++;continue;}g.buffer.splice(i,1);s.filled++;changed=true;}});}while(changed);}
-  function tap(l,g,i,probe=false){if(g.result!=='playing'||!g.remaining[i]||covered(l,g,i))return false;let count=g.remaining[i];g.remaining[i]=0;g.moves.push(l.stacks[i].id);
-    while(count-->0){const s=g.slots.find(s=>s&&s.color===l.stacks[i].color&&s.filled<s.capacity);if(s)s.filled++;else if(g.buffer.length<l.buffer_capacity)g.buffer.push(l.stacks[i].color);else{g.result='overflow';return true;}settle(l,g);}
-    if(g.remaining.every(n=>n===0)&&g.buffer.length===0)g.result='won';
-    else if(!probe && !l.stacks.some((_,j)=>{if(!g.remaining[j]||covered(l,g,j))return false;const trial=clone(g);tap(l,trial,j,true);return trial.result!=='overflow';}))g.result='stuck';
-    return true;
+  function enter(l,g,i){const k=i+g.next[i]*l.n_slots,t=l.targets[k];g.slots[i]=t?{...t,filled:0,index:k}:null;if(t)g.next[i]++;}
+  const hiddenNow=(l,g,i)=>!!l.stacks[i].hidden&&!g.revealed[i];
+  function covered(l,g,i){return l.stacks.some((s,j)=>g.remaining[j]>0 && s.layer>l.stacks[i].layer && (s.color!==l.stacks[i].color||hiddenNow(l,g,j)) && overlap(s,l.stacks[i]));}
+  const canTap=(l,g,i)=>g.result==='playing'&&g.remaining[i]>0&&!g.lock[i]&&!covered(l,g,i);
+  const receives=(g,color)=>g.slots.some(s=>s&&s.color===color&&s.filled<s.capacity);
+  const canPlace=(l,g,color)=>receives(g,color)||g.buffer.length<l.buffer_capacity;
+  const canSend=(l,g,i)=>canTap(l,g,i)&&canPlace(l,g,l.stacks[i].color);
+  /** The targets waiting behind slot `col`, nearest first: {color, hidden} (hidden = still showing "?"). */
+  function queued(l,g,col){const out=[];for(let n=g.next[col];;n++){const k=col+n*l.n_slots,t=l.targets[k];if(!t)return out;out.push({color:t.color,hidden:!!t.hidden&&!g.poleSeen[k]});}}
+  function unlockAllIfOnlyLockedLeft(l,g){
+    const locked=new Set(l.stacks.filter((_,i)=>g.lock[i]>0&&g.remaining[i]>0).map(s=>s.color));if(!locked.size)return;
+    const left=[...g.slots.filter(Boolean).map(s=>s.color),...g.slots.flatMap((_,c)=>queued(l,g,c).map(q=>q.color))];
+    if(left.length&&left.every(c=>locked.has(c)))l.stacks.forEach((_,i)=>{if(g.lock[i]>0&&g.remaining[i]>0)g.lock[i]=0;});
   }
-  const api={clone,overlap,normalize,validate,resolve,geometry,newGame,covered,tap};
+  function updateElements(l,g){
+    for(let again=true;again;){again=false;l.stacks.forEach((_,i)=>{if(hiddenNow(l,g,i)&&g.remaining[i]>0&&!covered(l,g,i)){g.revealed[i]=true;again=true;}});}
+    l.stacks.forEach((_,i)=>{if(g.lock[i]>0&&g.remaining[i]>0&&!g.counting[i]&&!covered(l,g,i))g.counting[i]=true;});
+    g.slots.forEach(s=>{if(s)g.poleSeen[s.index]=true;});
+    unlockAllIfOnlyLockedLeft(l,g);
+  }
+  function countCompletion(l,g){l.stacks.forEach((_,i)=>{if(g.lock[i]>0&&g.counting[i]&&g.remaining[i]>0)g.lock[i]--;});}
+  function settle(l,g){let changed;do{changed=false;updateElements(l,g);
+      g.slots.forEach((s,i)=>{if(s&&s.filled>=s.capacity){countCompletion(l,g);enter(l,g,i);changed=true;}});
+      g.slots.forEach(s=>{if(!s)return;for(let i=0;i<g.buffer.length&&s.filled<s.capacity;){if(g.buffer[i]!==s.color){i++;continue;}g.buffer.splice(i,1);s.filled++;changed=true;}});}while(changed);
+    updateElements(l,g);}
+  function checkEnd(l,g){
+    if(g.remaining.every(n=>n===0)&&g.buffer.length===0){g.result='won';return;}
+    const taps=l.stacks.map((_,i)=>i).filter(i=>canTap(l,g,i));
+    const match=taps.some(i=>receives(g,l.stacks[i].color))||g.buffer.some(c=>receives(g,c));
+    if(!taps.length||(g.buffer.length>=l.buffer_capacity&&!match))g.result='stuck';
+  }
+  function tap(l,g,i){if(!canSend(l,g,i))return false;const color=l.stacks[i].color;g.moves.push(l.stacks[i].id);
+    while(g.remaining[i]>0&&canPlace(l,g,color)){g.remaining[i]--;const s=g.slots.find(s=>s&&s.color===color&&s.filled<s.capacity);if(s)s.filled++;else g.buffer.push(color);settle(l,g);}
+    checkEnd(l,g);return true;
+  }
+  const api={clone,overlap,normalize,validate,resolve,geometry,newGame,covered,canTap,canSend,hiddenNow,queued,tap};
   if(typeof module!=='undefined')module.exports=api;else root.CardSlotCore=api;
 })(globalThis);
